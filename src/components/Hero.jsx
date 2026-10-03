@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { HERO_IMG } from '../assets/heroImage.js'
 
 const container = {
   hidden: {},
@@ -76,7 +77,7 @@ export default function Hero() {
           transition={{ duration: 1, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
         >
           <div className="hero-img-frame">
-            <img src="images/hero.jpg" alt="Kapal kontainer Samudra Biru berlayar di laut lepas" />
+            <img src={HERO_IMG} alt="Kapal kontainer Samudra Biru berlayar di laut lepas" />
           </div>
 
           <motion.div
