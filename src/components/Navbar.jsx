@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useScroll } from 'framer-motion'
+import { motion, useScroll, useSpring } from 'framer-motion'
 
 const LINKS = [
   { href: '#beranda', label: 'Beranda' },
@@ -11,6 +11,8 @@ const LINKS = [
 
 export default function Navbar() {
   const { scrollY } = useScroll()
+  const { scrollYProgress } = useScroll()
+  const progressScale = useSpring(scrollYProgress, { stiffness: 140, damping: 30, mass: 0.4 })
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
 
@@ -69,6 +71,7 @@ export default function Navbar() {
         ))}
         <a href="#kontak" className="btn btn-primary" onClick={() => setOpen(false)}>Minta Penawaran</a>
       </div>
+      <motion.div className="scroll-progress" style={{ scaleX: progressScale }} aria-hidden="true" />
     </>
   )
 }

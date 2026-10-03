@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import { HERO_IMG } from '../assets/heroImage.js'
 
 const container = {
@@ -17,10 +18,18 @@ const PROOF = [
 ]
 
 export default function Hero() {
+  const ref = useRef(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
+  /* Parallax: teks melayang lebih lambat, gambar lebih cepat */
+  const copyY = useTransform(scrollYProgress, [0, 1], [0, 130])
+  const copyOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0])
+  const imgY = useTransform(scrollYProgress, [0, 1], [0, 230])
+  const imgScale = useTransform(scrollYProgress, [0, 1], [1, 1.12])
+
   return (
-    <header className="hero" id="beranda">
+    <header className="hero" id="beranda" ref={ref}>
       <div className="container hero-inner">
-        <motion.div variants={container} initial="hidden" animate="show" className="hero-copy">
+        <motion.div variants={container} initial="hidden" animate="show" className="hero-copy" style={{ y: copyY, opacity: copyOpacity }}>
           <motion.div variants={item}>
             <span className="hero-badge">
               <span className="dot">SB</span>
@@ -72,8 +81,9 @@ export default function Hero() {
 
         <motion.div
           className="hero-visual"
-          initial={{ opacity: 0, scale: 0.94, x: 40 }}
-          animate={{ opacity: 1, scale: 1, x: 0 }}
+          style={{ y: imgY, scale: imgScale }}
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
         >
           <div className="hero-img-frame">

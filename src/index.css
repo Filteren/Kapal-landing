@@ -531,3 +531,132 @@ a { text-decoration: none; color: inherit; }
   .marquee-track { animation: none; }
   * { transition-duration: 0.01ms !important; }
 }
+
+/* ---------- Scroll progress (navbar) ---------- */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--amber), var(--sky));
+  transform-origin: 0 50%;
+  z-index: 130;
+}
+
+/* ---------- Journey: Apple-style scroll experience ---------- */
+.journey { position: relative; height: 430vh; }
+.journey-sticky {
+  position: sticky; top: 0;
+  height: 100vh; height: 100svh;
+  overflow: hidden;
+}
+.journey-sky { position: absolute; left: 0; right: 0; top: 0; height: 62%; }
+.journey-ocean { position: absolute; left: 0; right: 0; bottom: 0; height: 40%; overflow: hidden; }
+
+.journey-stars { position: absolute; inset: 0; }
+.star { position: absolute; border-radius: 50%; background: #fff; }
+
+.journey-sun {
+  position: absolute; top: 0; left: 0;
+  width: 120px; height: 120px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ffe9a8, #fbbf24 60%, #f59e0b);
+  box-shadow: 0 0 80px 30px rgba(251, 191, 36, 0.45);
+}
+.journey-moon {
+  position: absolute; top: 9%; left: 12%;
+  width: 84px; height: 84px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #f4f7fa, #c9d6e2);
+  box-shadow: 0 0 50px 12px rgba(244, 247, 250, 0.25);
+}
+.journey-moon span {
+  position: absolute; border-radius: 50%; background: rgba(160, 175, 190, 0.5);
+}
+.journey-moon span:nth-child(1) { width: 18px; height: 18px; top: 22%; left: 30%; }
+
+.cloud {
+  position: absolute; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  filter: blur(6px);
+}
+.cloud::before, .cloud::after {
+  content: ''; position: absolute; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+}
+.cloud.c1 { top: 12%; left: 0; width: 190px; height: 52px; }
+.cloud.c1::before { width: 70px; height: 70px; top: -34px; left: 34px; }
+.cloud.c1::after { width: 52px; height: 52px; top: -24px; left: 100px; }
+.cloud.c2 { top: 26%; left: 0; width: 130px; height: 38px; opacity: 0.7; }
+.cloud.c2::before { width: 52px; height: 52px; top: -26px; left: 26px; }
+.cloud.c3 { top: 6%; left: 0; width: 240px; height: 60px; opacity: 0.5; }
+.cloud.c3::before { width: 84px; height: 84px; top: -42px; left: 60px; }
+.cloud.c3::after { width: 60px; height: 60px; top: -28px; left: 140px; }
+
+.wave-layer {
+  position: absolute; left: 0; width: 200%; height: 74px;
+  display: flex; top: -4px;
+}
+.wave-layer.back { top: -18px; opacity: 0.6; height: 60px; }
+
+.journey-ship {
+  position: absolute; bottom: 27%; left: 0;
+  width: 330px; z-index: 6;
+  filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.35));
+}
+.ship-bob { animation: shipBob 3.6s ease-in-out infinite; }
+@keyframes shipBob { 0%, 100% { transform: translateY(0) rotate(0.6deg); } 50% { transform: translateY(-9px) rotate(-0.6deg); } }
+
+.journey-copy {
+  position: absolute; top: 9%; left: 0; right: 0; bottom: 44%;
+  z-index: 10; pointer-events: none;
+}
+.journey-copy .btn { pointer-events: auto; }
+.journey-phase {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 0 24px; gap: 14px;
+}
+.eyebrow-light {
+  color: #ffe9a8; background: rgba(5, 22, 38, 0.32);
+  border-color: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(6px);
+}
+.journey-title {
+  font-size: clamp(2.6rem, 7vw, 5.2rem);
+  font-weight: 800; letter-spacing: -0.035em; line-height: 1.04;
+  color: #fff; text-shadow: 0 4px 30px rgba(5, 22, 38, 0.45);
+}
+.journey-sub {
+  color: rgba(255, 255, 255, 0.88); font-size: clamp(1rem, 2vw, 1.25rem);
+  max-width: 36rem; text-shadow: 0 2px 14px rgba(5, 22, 38, 0.5);
+}
+
+.journey-route {
+  position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 16px; z-index: 10;
+  color: rgba(255, 255, 255, 0.85); font-size: 0.78rem; font-weight: 800; letter-spacing: 0.2em;
+}
+.route-line { position: relative; width: min(420px, 44vw); height: 2px; background: rgba(255, 255, 255, 0.3); border-radius: 2px; }
+.route-dot {
+  position: absolute; top: 50%; width: 14px; height: 14px; border-radius: 50%;
+  background: var(--amber); transform: translate(-50%, -50%);
+  box-shadow: 0 0 14px 4px rgba(251, 191, 36, 0.6);
+}
+.journey-dots {
+  position: absolute; right: 26px; top: 50%; transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 12px; z-index: 10;
+}
+.jdot {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  transition: background 0.3s, transform 0.3s;
+}
+.jdot.active { background: var(--amber); transform: scale(1.5); }
+
+@media (max-width: 720px) {
+  .journey { height: 380vh; }
+  .journey-ship { width: 200px; bottom: 30%; }
+  .journey-copy { top: 6%; }
+  .journey-dots { display: none; }
+  .journey-route { bottom: 3.5%; }
+  .cloud.c1 { width: 130px; height: 38px; }
+  .cloud.c3 { width: 160px; height: 44px; }
+}

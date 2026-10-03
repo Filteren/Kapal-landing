@@ -1,5 +1,6 @@
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
+import Journey from './components/Journey'
 import Services from './components/Services'
 import Fleet from './components/Fleet'
 import Stats from './components/Stats'
@@ -39,6 +40,7 @@ export default function App() {
       <main>
         <Hero />
         <Marquee />
+        <Journey />
         <Services />
         <Stats />
         <Fleet />
