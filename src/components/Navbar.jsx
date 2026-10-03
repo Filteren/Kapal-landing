@@ -9,7 +9,7 @@ const LINKS = [
   { href: '#kontak', label: 'Kontak' },
 ]
 
-export default function Navbar() {
+export default function Navbar({ onLogin }) {
   const { scrollY } = useScroll()
   const { scrollYProgress } = useScroll()
   const progressScale = useSpring(scrollYProgress, { stiffness: 140, damping: 30, mass: 0.4 })
@@ -51,6 +51,7 @@ export default function Navbar() {
           </div>
 
           <a href="#kontak" className="btn btn-primary btn-sm">Minta Penawaran</a>
+          <button className="nav-link nav-login" onClick={onLogin}>Masuk</button>
 
           <button
             className="nav-toggle"
@@ -69,6 +70,7 @@ export default function Navbar() {
         {LINKS.map((l) => (
           <a key={l.href} href={l.href} onClick={() => setOpen(false)}>{l.label}</a>
         ))}
+        <button className="mobile-login" onClick={() => { setOpen(false); onLogin() }}>Masuk</button>
         <a href="#kontak" className="btn btn-primary" onClick={() => setOpen(false)}>Minta Penawaran</a>
       </div>
       <motion.div className="scroll-progress" style={{ scaleX: progressScale }} aria-hidden="true" />

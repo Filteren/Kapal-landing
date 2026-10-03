@@ -2,7 +2,7 @@ import { useMemo, useRef, useState } from 'react'
 import { motion, useScroll, useTransform, useSpring, useMotionValueEvent } from 'framer-motion'
 
 /* Kapal kontainer flat-style */
-function CargoShip() {
+export function CargoShip() {
   const boxes = [
     // [x, y, color]
     [70, 56, '#fbbf24'], [104, 56, '#38bdf8'], [138, 56, '#f4f7fa'], [172, 56, '#34d399'],
