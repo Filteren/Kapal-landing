@@ -1,11 +1,40 @@
-import { Suspense, lazy, useRef } from 'react'
+import { Suspense, lazy, useRef, Component } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { HERO_IMG } from '../assets/heroImage.js'
 
 const Ship3D = lazy(() => import('./Ship3D'))
 
-const webglOK =
-  typeof window !== 'undefined' && !!window.WebGLRenderingContext
+function webglAvailable() {
+  try {
+    const c = document.createElement('canvas')
+    return !!(
+      window.WebGLRenderingContext &&
+      (c.getContext('webgl2') || c.getContext('webgl'))
+    )
+  } catch {
+    return false
+  }
+}
+const webglOK = typeof window !== 'undefined' && webglAvailable()
+
+/* Jika WebGL gagal di tengah jalan, tampilkan foto sebagai fallback */
+class CanvasBoundary extends Component {
+  state = { failed: false }
+  static getDerivedStateFromError() {
+    return { failed: true }
+  }
+  render() {
+    return this.state.failed ? this.props.fallback : this.props.children
+  }
+}
+
+const fallbackImg = (
+  <img
+    src={HERO_IMG}
+    alt="Kapal kontainer Samudra Biru berlayar di laut lepas"
+    className="hero-fallback-img"
+  />
+)
 
 const container = {
   hidden: {},
@@ -29,7 +58,8 @@ export default function Hero() {
   const copyY = useTransform(scrollYProgress, [0, 1], [0, 130])
   const copyOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0])
   const imgY = useTransform(scrollYProgress, [0, 1], [0, 230])
-  const imgScale = useTransform(scrollYProgress, [0, 1], [1, 1.12])
+  /* Catatan: tanpa scale di sini — R3F mengukur canvas via getBoundingClientRect
+     yang ikut transform scale dan merusak framing 3D saat scroll */
 
   return (
     <header className="hero" id="beranda" ref={ref}>
@@ -86,22 +116,20 @@ export default function Hero() {
 
         <motion.div
           className="hero-visual"
-          style={{ y: imgY, scale: imgScale }}
+          style={{ y: imgY }}
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
         >
           <div className="hero-img-frame hero-3d-frame">
             {webglOK ? (
-              <Suspense
-                fallback={
-                  <img src={HERO_IMG} alt="Kapal kontainer Samudra Biru berlayar di laut lepas" className="hero-fallback-img" />
-                }
-              >
-                <Ship3D />
-              </Suspense>
+              <CanvasBoundary fallback={fallbackImg}>
+                <Suspense fallback={fallbackImg}>
+                  <Ship3D />
+                </Suspense>
+              </CanvasBoundary>
             ) : (
-              <img src={HERO_IMG} alt="Kapal kontainer Samudra Biru berlayar di laut lepas" className="hero-fallback-img" />
+              fallbackImg
             )}
             <span className="hint-3d" aria-hidden="true">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none">

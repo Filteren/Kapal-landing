@@ -210,6 +210,11 @@ a { text-decoration: none; color: inherit; }
 }
 .hero-img-frame img { width: 100%; height: 480px; object-fit: cover; }
 
+/* Cegah feedback loop ukuran canvas 3D:
+   R3F mengukur parent pakai getBoundingClientRect (ikut transform scale
+   dari parallax scroll) -> tanpa min-width:0, kolom grid ikut melebar. */
+.hero-visual, .hero-copy { min-width: 0; }
+
 /* Frame 3D: gantikan tilt foto dengan canvas interaktif */
 .hero-3d-frame {
   height: 480px;
@@ -219,8 +224,8 @@ a { text-decoration: none; color: inherit; }
     radial-gradient(420px 300px at 15% 90%, rgba(251, 191, 36, 0.1), transparent 60%),
     linear-gradient(180deg, #0a2748 0%, #0d3a63 55%, #12507f 100%);
 }
-.hero-3d-frame > div { width: 100%; height: 100%; }
-.hero-3d-frame canvas { display: block; }
+.hero-3d-frame > div { width: 100% !important; height: 100% !important; }
+.hero-3d-frame canvas { display: block; width: 100% !important; height: 100% !important; touch-action: pan-y; }
 .hint-3d {
   position: absolute; left: 18px; bottom: 16px; z-index: 3;
   display: inline-flex; align-items: center; gap: 8px;
