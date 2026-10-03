@@ -1,6 +1,11 @@
-import { useRef } from 'react'
+import { Suspense, lazy, useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { HERO_IMG } from '../assets/heroImage.js'
+
+const Ship3D = lazy(() => import('./Ship3D'))
+
+const webglOK =
+  typeof window !== 'undefined' && !!window.WebGLRenderingContext
 
 const container = {
   hidden: {},
@@ -86,8 +91,25 @@ export default function Hero() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="hero-img-frame">
-            <img src={HERO_IMG} alt="Kapal kontainer Samudra Biru berlayar di laut lepas" />
+          <div className="hero-img-frame hero-3d-frame">
+            {webglOK ? (
+              <Suspense
+                fallback={
+                  <img src={HERO_IMG} alt="Kapal kontainer Samudra Biru berlayar di laut lepas" className="hero-fallback-img" />
+                }
+              >
+                <Ship3D />
+              </Suspense>
+            ) : (
+              <img src={HERO_IMG} alt="Kapal kontainer Samudra Biru berlayar di laut lepas" className="hero-fallback-img" />
+            )}
+            <span className="hint-3d" aria-hidden="true">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+                <rect x="7" y="2.5" width="10" height="19" rx="5" stroke="currentColor" strokeWidth="2" />
+                <path d="M12 6.5v3.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              </svg>
+              Arahkan kursor untuk memutar kapal
+            </span>
           </div>
 
           <motion.div
