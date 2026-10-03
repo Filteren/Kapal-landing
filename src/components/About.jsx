@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import Reveal from './Reveal'
+import { PELABUHAN_IMG } from '../assets/pelabuhanImage.js'
 
 const POINTS = [
   'Jadwal pelayaran mingguan yang pasti ke 120+ pelabuhan Indonesia',
@@ -14,7 +15,7 @@ export default function About() {
       <div className="container about-grid">
         <Reveal className="about-media">
           <div className="about-img">
-            <img src="images/pelabuhan.jpg" alt="Terminal peti kemas yang sibuk pada senja hari" loading="lazy" />
+            <img src={PELABUHAN_IMG} alt="Terminal peti kemas yang sibuk pada senja hari" loading="lazy" />
           </div>
           <motion.div
             className="about-exp"
